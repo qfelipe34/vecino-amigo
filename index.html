@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vecino Amigo — Catálogo</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23007AFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z'%3E%3C/path%3E%3Cline x1='3' y1='6' x2='21' y2='6'%3E%3C/line%3E%3Cpath d='M16 10a4 4 0 0 1-8 0'%3E%3C/path%3E%3C/svg%3E">
+  <!-- Google Fonts - DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <!-- Prevenir flash de tema claro si el usuario eligió oscuro -->
+  <script>
+    if (localStorage.getItem('vecino_theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  </script>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Cabecera / Navbar -->
+  <header class="navbar">
+    <div class="navbar-container">
+      <div class="brand">
+        <i data-lucide="shopping-bag" class="brand-icon"></i>
+        <span class="brand-title">Vecino Amigo</span>
+      </div>
+      <div class="navbar-actions">
+        <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Cambiar tema">
+          <i data-lucide="moon" class="theme-icon-dark"></i>
+          <i data-lucide="sun" class="theme-icon-light"></i>
+        </button>
+        <button class="cart-toggle-btn" id="cart-toggle-btn" aria-label="Ver carrito">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Sección de Introducción -->
+    <section class="intro-section">
+      <h1>Hacé tu pedido sin salir del edificio</h1>
+      <p>Precios especiales con descuento para vecinos.</p>
+    </section>
+
+    <!-- Controles de Filtros y Búsqueda -->
+    <section class="controls-section">
+      <div class="search-container">
+        <i data-lucide="search" class="search-icon"></i>
+        <input type="text" id="search-input" placeholder="Buscar producto o marca..." aria-label="Buscar producto">
+      </div>
+      <div class="filters-container" id="filters-container">
+        <!-- Generado dinámicamente en app.js -->
+      </div>
+    </section>
+
+    <!-- Carrusel de Productos -->
+    <section class="carousel-section">
+      <div class="carousel-container" id="carousel-container">
+        <button class="carousel-nav-btn prev" id="carousel-prev" aria-label="Producto anterior">
+          <i data-lucide="chevron-left"></i>
+        </button>
+        
+        <div class="carousel-viewport" id="carousel-viewport">
+          <div class="carousel-track" id="carousel-track">
+            <!-- Tarjetas de productos generadas dinámicamente en app.js -->
+          </div>
+          <!-- Barra de progreso de autoplay -->
+          <div class="carousel-progress-container">
+            <div class="carousel-progress-bar" id="carousel-progress-bar"></div>
+          </div>
+        </div>
+
+        <button class="carousel-nav-btn next" id="carousel-next" aria-label="Siguiente producto">
+          <i data-lucide="chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Indicadores de paginación (dots) -->
+      <div class="carousel-dots" id="carousel-dots">
+        <!-- Generado dinámicamente -->
+      </div>
+    </section>
+
+    <!-- Información del Vecino Amigo -->
+    <section class="info-section">
+      <div class="info-card">
+        <i data-lucide="info" class="info-card-icon"></i>
+        <div>
+          <h3>¿Cómo funciona?</h3>
+          <p>Elegís los productos, completás tus datos de entrega y el sistema te arma el mensaje de WhatsApp. Me mandás el pedido y te lo subo o bajás a buscarlo. ¡Así de fácil!</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Carrito de Compras (Panel Lateral Desplizable / Drawer) -->
+  <div class="cart-drawer-overlay" id="cart-drawer-overlay"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-labelledby="cart-drawer-title">
+    <div class="cart-drawer-header">
+      <h2 id="cart-drawer-title">Tu Pedido</h2>
+      <button class="close-drawer-btn" id="close-drawer-btn" aria-label="Cerrar carrito">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <!-- Cuerpo Desplazable del Carrito -->
+    <div class="cart-drawer-body">
+      <!-- Lista de Items en el Carrito -->
+      <div class="cart-items-container" id="cart-items-container">
+        <!-- Generado dinámicamente -->
+        <div class="empty-cart-msg">
+          <i data-lucide="package-open" class="empty-cart-icon"></i>
+          <p>Tu carrito está vacío.</p>
+        </div>
+      </div>
+
+      <!-- Resumen y Formulario (Solo si hay items) -->
+      <div class="cart-drawer-footer" id="cart-drawer-footer" style="display: none;">
+        <div class="cart-total-row">
+          <span>Total:</span>
+          <span class="cart-total-amount" id="cart-total-amount">$0</span>
+        </div>
+        <div class="cart-savings-row" id="cart-savings-row" style="display: none;">
+          <span>Ahorrás vs. Coto:</span>
+          <span class="cart-savings-amount" id="cart-savings-amount">$0</span>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Formulario de Entrega -->
+        <form class="checkout-form" id="checkout-form">
+          <div class="form-group">
+            <label for="checkout-name">Nombre</label>
+            <input type="text" id="checkout-name" required placeholder="Tu nombre o departamento">
+          </div>
+
+          <div class="form-group">
+            <label for="checkout-location">Piso / Departamento</label>
+            <input type="text" id="checkout-location" required placeholder="Ej: Piso 3 B">
+          </div>
+
+          <div class="form-group">
+            <label>Método de Pago</label>
+            <div class="payment-options">
+              <label class="payment-option">
+                <input type="radio" name="payment-method" value="Efectivo" checked>
+                <span class="payment-box">
+                  <i data-lucide="dollar-sign"></i>
+                  Efectivo
+                </span>
+              </label>
+              <label class="payment-option">
+                <input type="radio" name="payment-method" value="Transferencia">
+                <span class="payment-box">
+                  <i data-lucide="credit-card"></i>
+                  Transferencia
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="checkout-notes">Nota adicional (Opcional)</label>
+            <textarea id="checkout-notes" rows="2" placeholder="Ej: Dejar con el portero, tocar timbre suave..."></textarea>
+          </div>
+
+          <button type="submit" class="whatsapp-btn" id="whatsapp-btn">
+            <i data-lucide="send"></i>
+            Enviar Pedido por WhatsApp
+          </button>
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Modal de Confirmación de WhatsApp -->
+  <div class="modal-overlay" id="checkout-modal">
+    <div class="modal-card">
+      <i data-lucide="check-circle" class="modal-icon"></i>
+      <h3>¿Pedido enviado?</h3>
+      <p>Abrimos WhatsApp en otra pestaña para enviar tu pedido. Si ya lo enviaste, podemos vaciar tu carrito.</p>
+      <div class="modal-actions">
+        <button type="button" class="modal-btn secondary" id="modal-cancel-btn">Conservar Carrito</button>
+        <button type="button" class="modal-btn primary" id="modal-confirm-btn">Vaciar Carrito</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor para Notificaciones Toast -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
