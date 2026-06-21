@@ -8,7 +8,7 @@
 // - sellerName: Nombre o forma en que te identificás como vendedor.
 const STORE_CONFIG = {
   sellerName: "Vecino Amigo",
-  whatsappNumber: "5491123456789", 
+  whatsappNumber: "5492974711350", 
   currencySymbol: "$",
   sheetApiUrl: "https://script.google.com/macros/s/AKfycbw1qUoMEBtwBA96ij6SZZowaXqkixlVLyxWrFy7PssXpNaBrhiZloOrZdLwcWL-nfzI/exec" // Pegar aquí la URL de la Web App de Google Apps Script
 };
